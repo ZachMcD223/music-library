@@ -30,40 +30,27 @@ function App() {
              }
      } 
      if (term) fetchData()
-            
-          
   }
 
   return (
     <div className="App">
-      <SearchContext.Provider value={ {term: searchInput, handleSearch: handleSearch} }>
-      <SearchBar handleSearch={handleSearch} />
-      </SearchContext.Provider>
       {message}
-      <DataContext.Provider value={data}>
-      <Gallery/>
-      </DataContext.Provider>
-      <AlbumView />
-      <ArtistView />
+      <Router>
+        <Route exact path={'/'}>
+          <SearchContext.Provider value={{term: searchInput, handleSearch: handleSearch}}>
+            <SearchBar />
+          </SearchContext.Provider>
+            <DataContext.Provider value={data}>
+            </DataContext.Provider>
+        </Route>
+        <Route path="/album/:id">
+          <AlbumView />
+        </Route>
+        <Route path="/artist/:id">
+          <ArtistView />
+        </Route>
+      </Router>
     </div>
   );
-
-
-return (
-  <div>
-    <Router>
-      <Routes>
-        <Route path="/" element={
-          <Fragment>
-            <SearchBar handleSearch = {handleSearch} />
-            <Gallery data={data} />
-          </Fragment>
-        } />
-        <Route path="/album/:id" element={<AlbumView />} />
-        <Route path="/artist/:id" element={<ArtistView />} />
-      </Routes>
-    </Router>
-  </div>
-)
 }
 export default App;
