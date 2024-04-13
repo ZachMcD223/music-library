@@ -12,7 +12,16 @@ function GalleryItem(props) {
         'margin': '2px'
     }
     
-   
+    const detailStyle = {
+        'width': '80vw',
+        'height': '20vh',
+        'border': '1px solid black',
+        'margin': '2px',
+        'backgroundImage': `url(${props.item.artworkUrl100})`,
+        'backgroundRepeat': 'no-repeat',
+        'backgroundSize': 'cover',
+        'color': 'yellow'
+    }
     const simpleView = () => {
         return (
             <div style={simpleStyle}>
@@ -23,17 +32,7 @@ function GalleryItem(props) {
     }
     const detailView = () => {
         return (
-            <div style={{
-                'width': '80vw',
-                'height': '20vh',
-                'border': '1px solid black',
-                'margin' : '2px',
-                'position': 'relative',
-                'backgroundImage': `url(${props.item.artworkUrl100})`,
-                'backgroundRepeat': 'no-repeat',
-                'backgroundSize': 'cover',
-                'color': 'white'
-            }}>
+            <div style={detailStyle}>
                 <h2>{props.item.trackName}</h2>
                 <h3>
                     <Link to={`/artist/${props.item.artistId}`}>
@@ -50,16 +49,13 @@ function GalleryItem(props) {
             </div>
         )
     }
-
     return (
         <div onClick={() => setView(!view)}
         style={{'display': 'inline-block'}}>
         
             {/* This simple ternary shows the simple view when 'view' is false! */}
             {view ? detailView() : simpleView()}
-
         </div>
     )
-
 }
 export default GalleryItem

@@ -1,8 +1,8 @@
 import { useState, useRef, Fragment } from "react";
-import { BrowserRouter as Router, Routes, Route} from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import SearchBar from "./Components/SearchBar";
 import Gallery from "./Components/Gallery";
-import { DataContext} from "./context/DataContext";
+import { DataContext } from "./context/DataContext";
 import { SearchContext } from "./context/SearchContext";
 import AlbumView from "./Components/AlbumView";
 import ArtistView from "./Components/ArtistView";
@@ -19,36 +19,42 @@ function App() {
     const fetchData = async () => {
       const url = encodeURI(`https://itunes.apple.com/search?term=${term}`);
       document.title = `${term} Music`
-      const response = await fetch(url);
-       const data = await response.json();
-      console.log(data);
+      const response = await fetch(url)
+       const data = await response.json()
+      console.log(data)
 
       if (data.results.length) {
-             setData(data.results)
+             setData(data.results);
              } else {
-              setMessage('Not Found')
+              setMessage('Not Found');
              }
      } 
-     if (term) fetchData()
+     if (term) fetchData();
   }
 
   return (
-    <div className="App">
-      {message}
+    <div>
       <Router>
-        <Route exact path={'/'}>
-          <SearchContext.Provider value={{term: searchInput, handleSearch: handleSearch}}>
-            <SearchBar />
-          </SearchContext.Provider>
-            <DataContext.Provider value={data}>
-            </DataContext.Provider>
-        </Route>
-        <Route path="/album/:id">
-          <AlbumView />
-        </Route>
-        <Route path="/artist/:id">
-          <ArtistView />
-        </Route>
+        <Routes>
+          <Route path="/" element={
+            <div className="App">
+              <SearchContext.Provider value={{
+                term: searchInput,
+                handleSearch: handleSearch
+              }}>
+                <SearchBar handleSearch={handleSearch} />
+              </SearchContext.Provider>
+              {message}
+              <DataContext.Provider value={data}>
+                <Gallery />
+              </DataContext.Provider>
+              <AlbumView />
+              <ArtistView />
+            </div>
+          } />
+          <Route path="/album/:id" element={<AlbumView />} />
+          <Route path="/artist/:id" element={<ArtistView />} />
+        </Routes>
       </Router>
     </div>
   );
