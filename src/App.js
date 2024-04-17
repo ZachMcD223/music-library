@@ -17,19 +17,21 @@ function App() {
   const handleSearch = async (e, term) => {
     e.preventDefault()
     const fetchData = async () => {
-      const url = encodeURI(`https://itunes.apple.com/search?term=${term}`);
+      const url = encodeURI(`https://itunes.apple.com/search?term=${term}`)
       document.title = `${term} Music`
+
       const response = await fetch(url)
-       const data = await response.json()
+      const data = await response.json()
       console.log(data)
 
       if (data.results.length) {
-             setData(data.results);
-             } else {
-              setMessage('Not Found');
-             }
-     } 
-     if (term) fetchData();
+        setData(data.results);
+      } else {
+        setMessage('Not Found');
+      }
+    }
+  
+      if (term) fetchData();
   }
 
   return (
@@ -59,4 +61,5 @@ function App() {
     </div>
   );
 }
+
 export default App;
